@@ -1,46 +1,68 @@
-<div class="top-line mb-0 ">
+<div class="mb-0 py-1">
     <div class="container mx-auto">
-        <div class="flex flex-wrap items-center justify-between">
+        <div class="flex xl:gap-10 gap-5  items-center">
 
-            <!-- Логотип и информация -->
-            <div class="w-full xs:w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/3 xl:w-1/3 flex items-center">
+            <!-- Логотип-->
+            <div class="flex items-center">
                 <div class="logo">
-                    <!--                    <img src="/upload/main/be6/ywsl3rwyn2c2trjsfwxxl1mleiwyszr1.png" alt="Logo">-->
-                    <p>Свой лого</p>
-                </div>
-                <div class="ml-4">
-                    <a href="#" class="inline-flex items-center">
-                        <svg viewBox="0 0 510 510" class="w-6 h-6">
-                            <path d="M255,0C114.75,0,0,114.75,0,255s114.75,255,255,255s255-114.75,255-255S395.25,0,255,0z M280.5,382.5h-51v-153h51V382.5z M280.5,178.5h-51v-51h51V178.5z"></path>
-                        </svg>
-                        <span>Информация</span>
+                    <a href="<?php echo home_url(); ?>">
+                        <img class="max-h-[65px]" src="<?php echo get_stylesheet_directory_uri() . '/img/logo.png'; ?>" alt="Logo">
                     </a>
                 </div>
             </div>
 
-            <!-- Поиск  -->
-            <div class="w-full xs:w-1/2 sm:w-2/3 md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-end items-center space-x-6">
 
-                <!-- Поиск -->
-                <div class="hidden md:block">
-                    <form class="flex items-center border rounded-lg overflow-hidden">
-                        <input type="text" name="q" class="px-4 py-2" placeholder="Поиск...">
-                        <button class="px-4 py-2 bg-blue-500 text-white">
-                            <i class="fa fa-search"></i>
+            <!-- Выподающее меню "Информация" -->
+            <button id="dropdownDefaultButton"
+                    class="inline-flex text-black hover:text-rose-500 font-medium text-[16px] px-5 py-2.5 text-center items-center"
+                    type="button">
+                <svg class="w-4 h-4 m-2 ms-3 fill-rose-500" viewBox="0 0 510 510" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M255,0C114.75,0,0,114.75,0,255s114.75,255,255,255s255-114.75,255-255S395.25,0,255,0z M280.5,382.5h-51v-153h51V382.5z M280.5,178.5h-51v-51h51V178.5z"></path>
+                </svg>
+                Информация
+            </button>
+
+
+            <!-- Поиск -->
+            <form class="w-full max-w-72 rounded-3xl overflow-hidden hidden lg:block">
+                <div class="flex">
+                    <div class="relative w-full">
+                        <input type="text" id="voice-search"
+                               class="bg-neutral-200 text-gray-900 text-sm  w-full p-2.5 border-none  focus:outline-none"
+                               placeholder="Поиск..." required/>
+                        <button type="submit"
+                                class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-rose-500 ">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                            <span class="sr-only">Search</span>
                         </button>
-                    </form>
+                    </div>
                 </div>
+            </form>
+
+            <!-- Телефонный блок -->
+            <div class="flex items-center  space-x-1 ml-auto text-2xl">
+                <!-- Изображение телефона -->
+                <img src="<?php echo get_stylesheet_directory_uri() . '/img/phone.png'; ?>" alt="Phone Icon"
+                     class="w-6 h-6"/>
+                <!-- Номер телефона -->
+                <span class="text-gray-500 ">+375 (33) 333-33-33</span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="product-categories-container border-t border-gray-300 border-solid">
+
+<!-- Навигация категорий продуктов -->
+<div class="product-categories-container mb-0  border-t border-gray-300 border-solid">
     <div class="container mx-auto">
-        <div class="flex">
-            <!-- Навигация категорий продуктов -->
-            <nav class="w-full md:w-9/12">
-                <ul class="flex flex-wrap md:flex-nowrap space-x-4">
+        <div class="flex overflow-x-auto py-[15px]">
+            <nav class="w-full">
+                <ul class="flex space-x-4">
                     <li><a href="/catalog/sety/" class="whitespace-nowrap">Сеты</a></li>
                     <li><a href="/catalog/sushi-i-rolly/" class="whitespace-nowrap">Суши и роллы</a></li>
                     <li><a href="/catalog/wok/" class="whitespace-nowrap">WOK</a></li>
@@ -55,3 +77,4 @@
         </div>
     </div>
 </div>
+
