@@ -239,3 +239,14 @@ function rename_posts_labels($labels)
 // Добавляем поле для выбора изображения в форму добавления и редактирования рубрики
 require_once __DIR__ . '/wpTermImage.php';
 add_action( 'admin_init', [ \Kama\WP_Term_Image::class, 'init' ] );
+
+
+if( function_exists('acf_add_options_page') ) {
+    acf_add_options_page(array(
+        'page_title'    => 'Настройки сайта',
+        'menu_title'    => 'Настройк сайта',
+        'menu_slug'     => 'site-settings',
+        'capability'    => 'edit_posts',
+        'redirect'      => false
+    ));
+}

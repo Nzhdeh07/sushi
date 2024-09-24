@@ -1,12 +1,12 @@
 <!-- Баннер -->
-<div class="container my-1  px-2.5 flex-grow">
+<div class="container my-1 px-2.5 flex-grow">
     <div id="default-carousel" class="relative w-full" data-carousel="slide">
         <!-- Блок Карусель -->
-        <div class="relative h-full overflow-hidden rounded-lg md:h-80 lg:h-96">
+        <div class="relative overflow-hidden rounded-lg md:h-80 lg:h-96 h-64">
             <!-- Первый элемент -->
-            <div class="carousel-item duration-700 ease-in-out" data-carousel-item>
+            <div class="carousel-item" data-carousel-item>
                 <img src="<?php echo get_stylesheet_directory_uri() . '/img/banner_1.jpg'; ?>"
-                     class="absolute h-full block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                     class="absolute h-full w-full block" alt="...">
             </div>
 
             <!-- Второй элемент -->
@@ -43,7 +43,6 @@
                 </span>
             </button>
         </div>
-
     </div>
 </div>
 
