@@ -3,7 +3,7 @@ module.exports = {
   content: ["./**/*.php"],
   theme: {
     container: {
-      center: true, // Центрирование контейнера
+      center: true,
       screens: {
         sm: "576px",
         md: "720px",

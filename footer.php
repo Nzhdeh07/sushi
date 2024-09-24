@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <footer id="footer" role="contentinfo">
-    <div class="container mx-auto my-4  ">
+    <div class="container mx-auto my-4 px-2.5  ">
         <div class="flex flex-col justify-center ">
             <!--  Иконки социальных сетей -->
             <div class="flex  py-2  flex-wrap justify-center space-x-2">
