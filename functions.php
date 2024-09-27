@@ -204,7 +204,6 @@ function blankslate_comment_count($count)
 
 add_filter('post_type_labels_post', 'rename_posts_labels');
 
-
 # заменим слово "записи" на "посты" для типа записей 'post'
 function rename_posts_labels($labels)
 {
