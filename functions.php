@@ -230,22 +230,61 @@ function rename_posts_labels($labels)
         'menu_name' => 'Товары',
         'name_admin_bar' => 'Товар',
     ];
-    
+
     return (object)array_merge((array)$labels, $new);
 }
 
 
 // Добавляем поле для выбора изображения в форму добавления и редактирования рубрики
-require_once __DIR__ . '/wpTermImage.php';
-add_action( 'admin_init', [ \Kama\WP_Term_Image::class, 'init' ] );
+require_once __DIR__ . '/wp-term-image.php';
+add_action('admin_init', [\Kama\WP_Term_Image::class, 'init']);
 
 
-if( function_exists('acf_add_options_page') ) {
+if (function_exists('acf_add_options_page')) {
     acf_add_options_page(array(
-        'page_title'    => 'Настройки сайта',
-        'menu_title'    => 'Настройк сайта',
-        'menu_slug'     => 'site-settings',
-        'capability'    => 'edit_posts',
-        'redirect'      => false
+        'page_title' => 'Настройки сайта',
+        'menu_title' => 'Настройк сайта',
+        'menu_slug' => 'site-settings',
+        'capability' => 'edit_posts',
+        'redirect' => false
     ));
 }
+
+
+add_filter('wpseo_breadcrumb_separator', 'custom_breadcrumb_separator');
+function custom_breadcrumb_separator($separator)
+{
+    return '<span class="mx-2">/</span>';
+}
+
+function exclude_pages_from_search($query)
+{
+    if ($query->is_search() && !is_admin() && $query->is_main_query()) {
+        $query->set('post_type', 'post'); // Исключаем страницы, оставляем только записи
+    }
+}
+
+add_action('pre_get_posts', 'exclude_pages_from_search');
+
+
+global $wpdb;
+$attachments = $wpdb->get_results( "
+    SELECT ID, guid 
+    FROM {$wpdb->posts} 
+    WHERE post_type = 'attachment' 
+      AND post_mime_type LIKE 'image/%'
+" );
+
+foreach ( $attachments as $attachment ) {
+    $file_path = get_attached_file( $attachment->ID );
+    
+    // Проверяем, существует ли файл
+    if ( ! file_exists( $file_path ) ) {
+        // Удаляем медиафайл, если файла нет на сервере
+        wp_delete_attachment( $attachment->ID, true );
+    }
+}
+
+
+
+

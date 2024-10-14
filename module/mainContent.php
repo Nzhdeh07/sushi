@@ -1,5 +1,5 @@
 <!--Категории и Sidebar-->
-<div class="container flex flex-wrap my-2 mb-8 px-2.5">
+<div class="container flex flex-wrap flex-1 my-2 mb-8 px-2.5 ">
     <!--Категории-->
     <div class="w-full md:w-[75%] order-2 lg:order-1 mx-auto flex-grow">
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
@@ -19,7 +19,7 @@
                 <div class="<?php echo esc_attr($class); ?> relative">
                     <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
                         <img class="w-full h-auto object-cover rounded-lg" src="<?php echo esc_url($image_url); ?>"
-                             alt="">
+                             alt="" loading="lazy">
                         <span class="absolute text-[16px] left-0 bottom-5 text-black px-[15px] py-2 bg-white rounded-[12px] bg-opacity-90">
                             <?php echo esc_html($category->name); ?>
                         </span>
@@ -28,7 +28,6 @@
                 <?php
             }
             ?>
-
         </div>
     </div>
 
@@ -50,7 +49,7 @@
                        href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>">
                         <?php if ($image_url): ?>
                             <img class="w-6 h-6" src="<?php echo esc_url($image_url); ?>"
-                                 alt="<?php echo esc_attr($tag->name); ?>"/>
+                                 alt="<?php echo esc_attr($tag->name); ?>" loading="lazy"/>
                         <?php endif; ?>
                         <span><?php echo esc_html($tag->name); ?></span>
                     </a>
@@ -60,8 +59,6 @@
                 echo '<p>No tags found.</p>';
             }
             ?>
-
-
         </ul>
     </div>
 </div>
@@ -76,6 +73,8 @@
 
                 <?php
                 $args = array(
+                    'posts_per_page' => 8,
+                    'tag' => 'popular',
                     'orderby' => 'date',
                     'order' => 'DESC'
                 );
@@ -90,34 +89,55 @@
                         $price = get_field('price');
                         $discount_price = get_field('discount-price');
                         $count = get_field('count');
+                        $tags = get_the_terms(get_the_ID(), 'post_tag');
 
+                        $tag_image_urls = []; // Массив для хранения URL изображений меток
+                        if ($tags && !is_wp_error($tags)) {
+                            foreach ($tags as $tag) {
+                                $image_id = get_term_meta($tag->term_id, '_thumbnail_id', true);
+                                $tag_image_urls[] = wp_get_attachment_image_url($image_id, 'full'); // Добавляем URL изображений в массив
+                            }
+                        }
                         ?>
 
                         <div class="py-2">
-                            <img class="h-auto w-full rounded-t-lg" src="<?php echo esc_url($image_url); ?>"
-                                 alt="<?php the_title(); ?>">
+                            <div class="relative">
+                                <a href="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
+                                    <img class="h-auto w-full rounded-t-lg" src="<?php echo esc_url($image_url); ?>"
+                                         alt="<?php the_title(); ?>" loading="lazy">
+                                </a>
+                                <div class="absolute top-1 left-1 flex flex-wrap space-x-2">
+                                    <?php foreach ($tag_image_urls as $tag_image_url): ?>
+                                        <?php if ($tag_image_url): ?>
+                                            <img src="<?php echo esc_url($tag_image_url); ?>"
+                                                 class="w-10 h-10 rounded-full border-2 border-white z-10" loading="lazy">
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
                             <div class="product-info px-2.5">
-                                <p class="text-[18px] font-medium mt-3.5"><?php the_title(); ?></p>
+                                <a href="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
+                                    <p class="text-[18px] font-medium mt-3.5"><?php the_title(); ?></p>
+                                </a>
                                 <p class="text-[14px] pt-2.5 text-black h-[calc(3*1.6rem)] overflow-hidden">
                                     <?php echo esc_html($description); ?>
                                 </p>
 
-
-
                                 <div class="price py-2.5">
                                     <p class="salePrice text-[14px] text-gray-300">
                                         <?php if ($discount_price): ?>
-                                            <del class="text-[18px]"><?php echo esc_html($discount_price); ?></del>
+                                            <del class="text-[18px]"><?php echo esc_html($price); ?></del>
                                             руб.
                                         <?php else: ?>
                                             <del class="text-[18px]">&nbsp;</del>
                                         <?php endif; ?>
                                     </p>
 
-
                                     <div class="flex justify-between content-end">
-                                        <span class="text-rose-500 text-[18px]"><span
-                                                    class="text-[24px]"><?php echo esc_html($price); ?></span> руб.</span>
+                                    <span class="text-rose-500 text-[18px]"><span class="text-[24px]">
+                                            <?php echo esc_html($discount_price ? $discount_price : $price); ?>
+                                        </span> руб.</span>
                                         <div class="flex">
                                             <?php if ($weight): ?>
                                                 <span class="text-gray-500 flex items-center "><?php echo esc_html($weight); ?> </span>
@@ -129,7 +149,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="bg-neutral-100 w-full hover:bg-red-100 p-2 rounded-2xl">Заказать</button>
+                            <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
+                                    data-fancybox
+                                    data-src="#order-form"
+                                    data-productId="<?php echo get_the_ID(); ?>"
+                                    data-price="<?php echo esc_attr($discount_price ? $discount_price : $price); ?>"
+                                    data-url="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
+                                Заказать
+                            </button>
+
                         </div>
                     <?php
                     endwhile;
@@ -140,21 +168,16 @@
         </div>
 
         <!--Sidebar-->
-        <div class="w-full md:w-[25%] order-1 md:order-2  hidden lg:flex pl-4">
-
+        <div class="w-full md:w-[25%] order-1 md:order-2 hidden lg:flex pl-4">
             <ul class="flex flex-col gap-3">
-
                 <?php $company_details = get_field('advertising', 'option'); ?>
 
                 <!--Реклама ввиде Изображения-->
-                <?php
-                if (!empty($company_details['image'])):
-                    ?>
-
+                <?php if (!empty($company_details['image'])): ?>
                     <a class="flex gap-3" href="/catalog/its-hot/">
                         <img src="<?php echo esc_url($company_details['image']['url']); ?>"
                              alt="..."
-                             class="rounded-lg overflow-hidden object-cover"/>
+                             class="rounded-lg overflow-hidden object-cover" loading="lazy"/>
                     </a>
                 <?php endif; ?>
 
@@ -165,15 +188,11 @@
                             <?php if (!empty($info_item['img'])): ?>
                                 <img src="<?php echo esc_url($info_item['img']['url']); ?>"
                                      alt="<?php echo esc_attr($info_item['title']); ?>"
-                                     class="w-10 h-10 rounded-full"/>
+                                     class="w-10 h-10 rounded-full object-cover" loading="lazy">
                             <?php endif; ?>
-                            <div>
-                                <?php if (!empty($info_item['title'])): ?>
-                                    <p class="text-[16px] "><?php echo esc_html($info_item['title']); ?></p>
-                                <?php endif; ?>
-                                <?php if (!empty($info_item['text'])): ?>
-                                    <p class="text-[14px] "><?php echo esc_html($info_item['text']); ?></p>
-                                <?php endif; ?>
+                            <div class="text">
+                                <span><?php echo esc_html($info_item['title']); ?></span>
+                                <p class="text-sm"><?php echo esc_html($info_item['text']); ?></p>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -184,8 +203,10 @@
 </div>
 
 
+
 <!--Доп информация-->
-<div class="container hidden md:flex mx-auto bg-gray-100 rounded-2xl p-12">
+<div class="container hidden md:flex px-2.5 ">
+    <div class="flex bg-gray-100 rounded-2xl p-12">
     <div class="w-[25%] mx-auto">
         <div class="w-[120px] h-[120px] mx-auto rounded-full overflow-hidden">
             <?php $image_url = get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>
@@ -196,4 +217,8 @@
         <h1 class="w-full text-center text-[40px] mb-2"><?php the_title(); ?></h1>
         <p class="font-light text-[15px]"><?php the_content(); ?></p>
     </div>
+    </div>
 </div>
+
+
+<?php get_template_part('module/widgetes/order-form', null, array()); ?>

@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
 <footer id="footer" role="contentinfo">
-    <div class="container mx-auto my-4 px-2.5 pb-[10vh]">
+    <div class="container mx-auto my-4 px-2.5 pb-[7vh] md:pb-1">
         <div class="flex flex-col justify-center ">
             <div class="flex  py-2  flex-wrap justify-center space-x-2">
                 <!--  Иконки социальных сетей -->
@@ -58,7 +58,34 @@
     </div>
 
 </footer>
+
 </div>
 <?php wp_footer(); ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Проверяем, было ли окно уже открыто
+        if (!sessionStorage.getItem('modalOpened')) {
+            // Показываем модальное окно через 8 секунд
+            setTimeout(function () {
+                $.fancybox.open({
+                    src: '#modalContent', // Идентификатор скрытого контента
+                    type: 'inline' // Тип содержимого
+                });
+
+                // Устанавливаем флаг, что модальное окно открыто
+                sessionStorage.setItem('modalOpened', 'true');
+            }, 8000);
+        }
+    });
+</script>
+
+
+
+<script> Fancybox.bind('[data-fancybox]'); </script>
 </body>
 </html>

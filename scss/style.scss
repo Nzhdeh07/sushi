@@ -30,6 +30,8 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
+
+
 }
 
 .swiper-slide img {
@@ -48,6 +50,12 @@ body.modal-open {
   width: 10px;
   height: 10px;
 }
+
+a:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 
 
 

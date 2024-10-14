@@ -48,4 +48,9 @@ body.modal-open {
   height: 10px;
 }
 
+a:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 /*# sourceMappingURL=style.css.map */
