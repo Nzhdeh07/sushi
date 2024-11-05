@@ -84,13 +84,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
-                                    data-fancybox
-                                    data-src="#order-form"
+                          <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
                                     data-productId="<?php echo get_the_ID(); ?>"
                                     data-price="<?php echo esc_attr($discount_price ? $discount_price : $price); ?>"
-                                    data-url="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
-                                Заказать
+								    data-img="<?php echo esc_url(get_the_post_thumbnail_url(get_the_ID(), 'full')); ?>"
+									data-ptitle="<?php the_title(); ?>">
+                                Добавить в корзину
                             </button>
                         </div>
                     <?php

@@ -1,5 +1,3 @@
-
-
 <footer id="footer" role="contentinfo">
     <div class="container mx-auto my-4 px-2.5 pb-[7vh] md:pb-1">
         <div class="flex flex-col justify-center ">
@@ -68,24 +66,34 @@
 
 <script>
     $(document).ready(function () {
-        // Проверяем, было ли окно уже открыто
         if (!sessionStorage.getItem('modalOpened')) {
-            // Показываем модальное окно через 8 секунд
             setTimeout(function () {
                 $.fancybox.open({
-                    src: '#modalContent', // Идентификатор скрытого контента
-                    type: 'inline' // Тип содержимого
+                    src: '#modalContent',
+                    type: 'inline'
                 });
-
-                // Устанавливаем флаг, что модальное окно открыто
                 sessionStorage.setItem('modalOpened', 'true');
             }, 8000);
         }
     });
 </script>
 
+<script>
+    Fancybox.bind('[data-fancybox="modal-basket"]', {
+        closeButton: "inside",
+        on: {
+            reveal: () => {
+                setTimeout(() => {
+                    getCart();
+                    // Убираем фокус с кнопок
+                    document.activeElement.blur();
+                }, 100);
+            }
+        }
+    });
+
+</script>
 
 
-<script> Fancybox.bind('[data-fancybox]'); </script>
 </body>
 </html>

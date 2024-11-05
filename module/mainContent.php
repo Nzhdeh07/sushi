@@ -1,35 +1,36 @@
 <!--Категории и Sidebar-->
 <div class="container flex flex-wrap flex-1 my-2 mb-8 px-2.5 ">
     <!--Категории-->
-    <div class="w-full md:w-[75%] order-2 lg:order-1 mx-auto flex-grow">
-        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            <?php
-            $categories = get_terms(array(
-                'taxonomy' => 'category',
-                'hide_empty' => false,
-                'exclude' => array(get_option('default_category')), // ID категории "Uncategorized"
-            ));
+<div class="w-full md:w-[75%] order-2 lg:order-1 mx-auto flex-grow">
+    <div class="categori grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <?php
+        $categories = get_terms(array(
+            'taxonomy' => 'category',
+            'hide_empty' => false,
+            'exclude' => array(get_option('default_category')), // ID категории "Uncategorized"
+        ));
 
-            foreach ($categories as $index => $category) {
-                $image_id = get_term_meta($category->term_id, '_thumbnail_id', true);
-                $image_url = wp_get_attachment_image_url($image_id, 'full');
+        foreach ($categories as $index => $category) {
+            $image_id = get_term_meta($category->term_id, '_thumbnail_id', true);
+            $image_url = wp_get_attachment_image_url($image_id, 'full');
 
-                $class = ($index === 0) ? 'col-span-2 row-span-2 relative' : ''; // 'relative' для позиционирования
-                ?>
-                <div class="<?php echo esc_attr($class); ?> relative">
-                    <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
-                        <img class="w-full h-auto object-cover rounded-lg" src="<?php echo esc_url($image_url); ?>"
-                             alt="" loading="lazy">
-                        <span class="absolute text-[16px] left-0 bottom-5 text-black px-[15px] py-2 bg-white rounded-[12px] bg-opacity-90">
-                            <?php echo esc_html($category->name); ?>
-                        </span>
-                    </a>
-                </div>
-                <?php
-            }
+            $class = ($index === 0) ? 'col-span-2 row-span-2 relative h-full' : 'categori-img w-full object-cover';
             ?>
-        </div>
+            <div class="<?php echo ($index === 0) ? 'col-span-2 row-span-2 relative' : ''; ?> relative">
+                <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
+                    <img class="<?php echo esc_attr($class); ?> rounded-lg" src="<?php echo esc_url($image_url); ?>"
+                         alt="" loading="lazy">
+                    <span class="absolute text-[16px] left-0 bottom-5 text-black px-[15px] py-2 bg-white rounded-[12px] bg-opacity-90">
+                        <?php echo esc_html($category->name); ?>
+                    </span>
+                </a>
+            </div>
+            <?php
+        }
+        ?>
     </div>
+</div>
+
 
     <!--Sidebar-->
     <div class="w-full lg:w-[25%] order-1 lg:order-2 lg:my-0 mt-2 mb-4 lg:pl-4">
@@ -149,13 +150,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
-                                    data-fancybox
-                                    data-src="#order-form"
+                           <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
                                     data-productId="<?php echo get_the_ID(); ?>"
                                     data-price="<?php echo esc_attr($discount_price ? $discount_price : $price); ?>"
-                                    data-url="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
-                                Заказать
+								    data-img="<?php echo esc_url(get_the_post_thumbnail_url(get_the_ID(), 'full')); ?>"
+									data-ptitle="<?php the_title(); ?>">
+                                Добавить в корзину
                             </button>
 
                         </div>

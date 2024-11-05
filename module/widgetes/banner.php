@@ -8,7 +8,7 @@
             $banner = get_field('banner', 'option');
             foreach ($banner as $banner_item) {
                 ?>
-                 <a class="swiper-slide" href="<?php echo esc_url($banner_item['link']); ?>">
+                <a class="swiper-slide" href="<?php echo $banner_item['banner-link']['url']; ?>">
                         <img src="<?php echo esc_url($banner_item['image']['url']); ?>"
                              class="absolute h-full w-full block" alt="...">
                  </a>

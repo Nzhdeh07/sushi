@@ -19,7 +19,7 @@
     <!-- Meta описание -->
     <div class="archive-meta text-gray-500 mt-2" itemprop="description">
         <?php if ('' != get_the_archive_description()) {
-            echo esc_html(get_the_archive_description());
+            echo wp_kses_post(get_the_archive_description());
         } ?>
     </div>
 </header>
@@ -56,7 +56,7 @@
                     <div class="py-2">
                         <div class="relative">
                             <a href="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
-                                <img class="h-auto w-full rounded-t-lg" src="<?php echo esc_url($image_url); ?>"
+                                <img class=" w-full rounded-t-lg"  style="height: 300px; object-fit: cover;"  src="<?php echo esc_url($image_url); ?>"
                                      alt="<?php the_title(); ?>" loading="lazy">
                             </a>
                             <!-- Вывод изображения метки, если оно существует -->
@@ -71,17 +71,17 @@
                         </div>
                         <div class="product-info px-2.5">
                             <a href="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
-                                <p class="text-[18px] font-medium mt-3.5"><?php the_title(); ?></p>
+                                <p class="ddd text-[18px] font-medium mt-3.5"><?php the_title(); ?></p>
                             </a>
                             <p class="text-[14px] pt-2.5 text-black h-[calc(3*1.6rem)] overflow-hidden">
-                                <?php echo esc_html($description); ?>
-                            </p>
+								<?php echo wp_kses_post($description); ?>
+							</p>
 
 
                             <div class="price py-2.5">
                                 <p class="salePrice text-[14px] text-gray-300">
                                     <?php if ($discount_price): ?>
-                                        <del class="text-[18px]"><?php echo esc_html($price); ?></del>
+                                        <del class="text-[18px]"><?php echo wp_kses_post($price); ?></del>
                                         руб.
                                     <?php else: ?>
                                         <del class="text-[18px]">&nbsp;</del>
@@ -90,27 +90,26 @@
 
                                 <div class="flex justify-between content-end">
                                     <span class="text-rose-500 text-[18px]"><span class="text-[24px]">
-                                            <?php echo esc_html($discount_price ? $discount_price : $price); ?>
+                                            <?php echo wp_kses_post($discount_price ? $discount_price : $price); ?>
                                         </span> руб.</span>
                                     <div class="flex">
                                         <?php if ($weight): ?>
-                                            <span class="text-gray-500 flex items-center "><?php echo esc_html($weight); ?> </span>
+                                            <span class="text-gray-500 flex items-center "><?php echo wp_kses_post($weight); ?> </span>
                                         <?php endif; ?>
                                         <?php if ($weight): ?>
-                                            <span class="text-gray-500 flex items-center ">&nbsp;|&nbsp;<?php echo esc_html($count); ?></span>
+                                            <span class="text-gray-500 flex items-center ">&nbsp;|&nbsp;<?php echo wp_kses_post($count); ?></span>
                                         <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
-                                data-fancybox
-                                data-src="#order-form"
-                                data-productId="<?php echo get_the_ID(); ?>"
-                                data-price="<?php echo esc_attr($discount_price ? $discount_price : $price); ?>"
-                                data-url="<?php echo esc_url(get_permalink(get_the_ID())); ?>">
-                            Заказать
-                        </button>
+                     <button class="order-button w-full bg-neutral-200 hover:bg-red-100 p-2 rounded-xl"
+                                    data-productId="<?php echo get_the_ID(); ?>"
+                                    data-price="<?php echo esc_attr($discount_price ? $discount_price : $price); ?>"
+								    data-img="<?php echo esc_url(get_the_post_thumbnail_url(get_the_ID(), 'full')); ?>"
+									data-ptitle="<?php the_title(); ?>">
+                                Добавить в корзину
+                            </button>
                     </div>
                 <?php
                 endwhile;
@@ -127,16 +126,16 @@
              class="container mx-auto px-4 py-8 flex-1 post no-results not-found bg-gray-100 rounded-lg shadow-lg">
         <header class="header mb-6">
             <h1 class="entry-title text-4xl font-bold text-gray-800 text-center" itemprop="name">
-                <?php esc_html_e('Nothing Found', 'blankslate'); ?>
+                <?php wp_kses_post('Nothing Found', 'blankslate'); ?>
             </h1>
         </header>
         <div class="entry-content text-lg text-gray-600 text-center" itemprop="mainContentOfPage">
             <p class="mb-6">
-                <?php esc_html_e('Sorry, nothing matched your search. Please try again.', 'blankslate'); ?>
+                <?php wp_kses_post('Sorry, nothing matched your search. Please try again.', 'blankslate'); ?>
             </p>
             <a href="<?php echo esc_url(home_url('/')); ?>"
                class="inline-block bg-rose-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-rose-600 transition-colors">
-                <?php esc_html_e('Вернуться на главную страницу', 'blankslate'); ?>
+                <?php wp_kses_post('Вернуться на главную страницу', 'blankslate'); ?>
             </a>
         </div>
     </article>
